@@ -1,13 +1,16 @@
 from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from backend.config import Settings
+from app.config import Settings
+from app.models.account import Account,Base
+from app.models.trade import Trade,Base
+from app.models.user import User,Base
 
-# Create SQLAlchemy engine
+
+
 engine = create_engine(Settings.SQLALCHEMY_DATABASE_URL)
-
-# Create a SessionLocal class for creating session objects
+# engine = create_engine('postgresql://postgres:password@localhost:5433/new_database')
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-# Create a declarative base
-Base = declarative_base()
+def init_db():
+
+    Base.metadata.create_all(bind=engine)

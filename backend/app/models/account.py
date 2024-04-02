@@ -1,7 +1,6 @@
-from sqlalchemy import Column, ForeignKey, Integer, String, Float, DateTime
+from sqlalchemy import Column, ForeignKey, Integer, Float
 from sqlalchemy.orm import relationship
-from base import Base
-
+from app.models.base import Base
 
 class Account(Base):
     __tablename__ = 'accounts'

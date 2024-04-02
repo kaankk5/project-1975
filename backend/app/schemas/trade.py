@@ -1,4 +1,5 @@
-from pydantic import BaseModel,Field
+from pydantic import BaseModel, Field, EmailStr, validator
+from typing import Optional
 from account import Account
 from datetime import datetime
 
@@ -7,27 +8,25 @@ class TradeBase(BaseModel):
     account_id: int
     symbol: str
     leverage: int
-    buying_price: float
-    selling_price: float
     timestamp: datetime
     is_long: bool
-    is_short: bool
+
 
 class TradeCreate(TradeBase):
     pass
 
-class TradeUpdate(TradeBase):
-    pass
 
-class TradeInDB(BaseModel):
+class Trade(TradeBase):
     id: int
-    account_id: int
-    symbol: str
-    leverage: int
-    buying_price: float
-    selling_price: float
-    timestamp: datetime
-    is_long: bool
-    is_short: bool
-    roi: float = Field(..., alias="calculated_roi")
-    profit: float = Field(..., alias="calculated_profit")
+    profit: Optional[float] = None
+    roi: Optional[float] = None
+    buying_price: Optional[float] = None
+    selling_price: Optional[float] = None
+    account: Account
+
+    class Config:
+        orm_mode = True
+
+
+class TradeInDB(Trade):
+    pass

@@ -1,17 +1,15 @@
 import sys
 import os
 
-# Add the 'backend' directory to the Python path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from config import Config
+
+from backend.app.config import Settings
 
 
 # Now you can import config.py
 
 # Use Config class as needed
 def foo():
-
-    config = Config()
+    config = Settings()
     print(config.SQLALCHEMY_DATABASE_URL)
 
 

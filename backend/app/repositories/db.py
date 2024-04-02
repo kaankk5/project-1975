@@ -1,16 +1,21 @@
-from sqlalchemy import create_engine
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy_utils import create_database, database_exists
 from app.config import Settings
-from app.models.account import Account,Base
-from app.models.trade import Trade,Base
-from app.models.user import User,Base
+from app.models.account import Account, Base
+from app.models.trade import Trade, Base
+from app.models.user import User, Base
+
+#engine and session
+async_engine = create_async_engine(Settings.SQLALCHEMY_DATABASE_URL, echo=True)
+async_session = sessionmaker(bind=async_engine, class_=AsyncSession, expire_on_commit=False)
 
 
 
-engine = create_engine(Settings.SQLALCHEMY_DATABASE_URL)
-# engine = create_engine('postgresql://postgres:password@localhost:5433/new_database')
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+async def get_db_session():
+    async with async_session() as session:
+        yield session
 
-def init_db():
-
-    Base.metadata.create_all(bind=engine)
+async def init_db():
+    async with async_engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)

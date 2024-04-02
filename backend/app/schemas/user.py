@@ -1,15 +1,21 @@
 from typing import List
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 
 class UserBase(BaseModel):
     username: str
-    email: str
+
+
+class UserCreate(UserBase):
+    password: str
+    email: EmailStr
+
+
+class UserLogin(UserBase):
+    password: str
 
 
 class User(UserBase):
-    id: int
-
     class Config:
         orm_mode = True
 

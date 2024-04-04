@@ -1,12 +1,12 @@
 from typing import List
 from pydantic import BaseModel
-from user import User
-from trade import Trade
+from app.schemas.user import User
+from app.schemas.trade import Trade
 
 
 class AccountBase(BaseModel):
-    user_id: int
-    balance: float = 0.0
+    account_name: str
+    balance: float
 
 
 class AccountCreate(AccountBase):
@@ -16,7 +16,7 @@ class AccountCreate(AccountBase):
 class Account(AccountBase):
     id: int
     user: User
-    trades: List[Trade] = []
+    trades: List["Trade"] = []
 
     class Config:
         orm_mode = True
@@ -24,4 +24,3 @@ class Account(AccountBase):
 
 class AccountInDB(Account):
     pass
-

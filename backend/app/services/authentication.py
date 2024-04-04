@@ -8,13 +8,9 @@ from app.repositories.db import get_db_session
 
 
 class UserValidator:
-    def __init__(self, db: AsyncSession = Depends(get_db_session)):
-        self.db = db
-
-    async def __call__(self, request: Request):
-        print(self.db)
+    async def __call__(self, request: Request, db: AsyncSession = Depends(get_db_session)):
         user_service = AuthService()
-        return await user_service.get_current_user(request)
+        return await user_service.get_current_user(request, db)
 
 
 class AuthService:
@@ -27,12 +23,7 @@ class AuthService:
             return None
         return user
 
-
-
-
-
-
-    async def get_current_user(self, request: Request):
+    async def get_current_user(self, request: Request, db: AsyncSession):
         token = request.headers.get("Authorization")
         if not token:
             raise HTTPException(status_code=401, detail="Authorization header is missing")
@@ -40,14 +31,10 @@ class AuthService:
         try:
             token = token.split("Bearer ")[1]  # Extract the token from the "Bearer" token type
             payload = decode_jwt_token(token)
-            user_id: int = payload.get("sub")
+            user_id: int = int(payload.get("sub"))
             if user_id is None:
                 raise HTTPException(status_code=401, detail="Invalid token")
-
-            print('user_id: ', user_id)
-            user = await self.user_repository.get_by_id(user_id)
-            print('returned user ', user)
-
+            user = await self.user_repository.get_by_id(user_id, db)
             if user is None:
                 raise HTTPException(status_code=401, detail="User not found")
             return user

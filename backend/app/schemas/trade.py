@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field, EmailStr, validator
 from typing import Optional
-from account import Account
+# from app.schemas.account import Account
 from datetime import datetime
 
 
@@ -22,7 +22,7 @@ class Trade(TradeBase):
     roi: Optional[float] = None
     buying_price: Optional[float] = None
     selling_price: Optional[float] = None
-    account: Account
+    # account: Account
 
     class Config:
         orm_mode = True

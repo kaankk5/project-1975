@@ -20,7 +20,6 @@ def set_password(user_data_dict: Dict[str, Any], hashed_password: str) -> Dict[s
     return user_data_dict
 
 
-
 def create_access_token(user_id: int) -> str:
     access_token_expires = timedelta(minutes=Settings.ACCESS_TOKEN_EXPIRATION_MINUTES)
     access_token_payload = {
@@ -36,12 +35,13 @@ def create_access_token(user_id: int) -> str:
 
 
 
+
 def decode_jwt_token(token: str):
-        decoded_token = jwt.decode(token, Settings.JWT_SECRET_KEY, algorithms=[Settings.JWT_ALGORITHM])
-        return decoded_token
-    # except jwt.ExpiredSignatureError:
-    #
-    #     raise HTTPException(status_code=401, detail="Token has expired")
-    # except jwt.InvalidTokenError:
-    #     print('error 2')
-    #     raise HTTPException(status_code=401, detail="Invalid token")
+    decoded_token = jwt.decode(token, Settings.JWT_SECRET_KEY, algorithms=[Settings.JWT_ALGORITHM])
+    return decoded_token
+# except jwt.ExpiredSignatureError:
+#
+#     raise HTTPException(status_code=401, detail="Token has expired")
+# except jwt.InvalidTokenError:
+#     print('error 2')
+#     raise HTTPException(status_code=401, detail="Invalid token")

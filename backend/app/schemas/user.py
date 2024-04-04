@@ -6,6 +6,7 @@ class UserBase(BaseModel):
     username: str
 
 
+
 class UserCreate(UserBase):
     password: str
     email: EmailStr
@@ -16,6 +17,10 @@ class UserLogin(UserBase):
 
 
 class User(UserBase):
+
+    id: int
+    accounts: List['Account'] = []
+
     class Config:
         orm_mode = True
 

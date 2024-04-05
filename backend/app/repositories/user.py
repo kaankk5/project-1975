@@ -2,12 +2,12 @@ from app.schemas.user import UserCreate
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.models.user import User
 from app.models.account import Account
-
 from app.utils import hash_password
 from sqlalchemy import select
 from fastapi import Depends, HTTPException
 from app.repositories.db import get_db_session
-
+from typing import Dict, Any, List
+from app.http_constants import ACCOUNT_DELETED_MESSAGE
 
 class UserRepository:
 
@@ -35,15 +35,27 @@ class UserRepository:
 
     @staticmethod
     async def get_accounts(user: User, db: AsyncSession) -> User:
-        query = select(User).filter(Account.user_id == user.id)
+        query = select(Account).filter(Account.user_id == user.id)
         result = await db.execute(query)
-        accounts: Account = result.scalars().all()
-        print(accounts)
+        accounts: List[Account] = result.scalars().all()
         return accounts
 
-    async def create_account(self, user: User, db: AsyncSession):
-        account = Account(user_id=user.id)  # Assuming Account model has a user_id field
+    @staticmethod
+    async def create_account(account_data: Dict[str, Any], db: AsyncSession) -> Account:
+        account = Account(**account_data)
         db.add(account)
         await db.commit()
         return account
 
+    @staticmethod
+    async def get_account(account_name: str, user_id: int, db: AsyncSession) -> Account:
+        query = select(Account).filter(Account.account_name == account_name, Account.user_id == user_id)
+        result = await db.execute(query)
+        account: Account = result.scalars().first()
+        return account
+
+    @staticmethod
+    async def delete_account(account: Account, db: AsyncSession):
+        await db.delete(account)
+        await db.commit()
+        return ACCOUNT_DELETED_MESSAGE

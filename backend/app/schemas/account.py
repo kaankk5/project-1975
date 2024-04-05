@@ -13,6 +13,9 @@ class AccountCreate(AccountBase):
     pass
 
 
+class AccountDelete(BaseModel):
+    account_name: str
+
 class Account(AccountBase):
     id: int
     user: User

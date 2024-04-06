@@ -5,7 +5,13 @@ from app.models.account import Account
 from app.schemas.account import AccountCreate
 from app.schemas.user import UserCreate
 from typing import List
-from app.http_constants import MESSAGE_KEY,USER_SIGNUP_MESSAGE
+from app.api_constants import (MESSAGE_KEY,
+                                USER_SIGNUP_MESSAGE,
+                                USER_ID_TEXT,
+                                ACCOUNT_NAME_TEXT,
+                                BALANCE_TEXT,
+                                )
+
 
 class UserService:
     def __init__(self, user_repository: UserRepository):
@@ -20,9 +26,9 @@ class UserService:
 
     async def create_account(self, user_id: int, account_create: AccountCreate, db: AsyncSession) -> Account:
         account_data = {
-            "user_id": user_id,
-            "account_name": account_create.account_name,
-            "balance": account_create.balance,
+            USER_ID_TEXT: user_id,
+            ACCOUNT_NAME_TEXT: account_create.account_name,
+            BALANCE_TEXT: account_create.balance,
         }
         return await self.user_repository.create_account(account_data, db)
 

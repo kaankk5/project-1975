@@ -9,12 +9,12 @@ from app.models.user import User
 from app.models.account import Account
 from app.repositories.user import UserRepository
 from app.schemas.account import AccountCreate, AccountDelete
-from app.http_constants import (
-    ACCOUNT_NOT_FOUND_MESSAGE,
-    MESSAGE_KEY,
-    ACCOUNT_DELETED_MESSAGE,
-    USER_CREATED_MESSAGE,
-    STATUS_404)
+from app.api_constants import (
+    ACCOUNT_NOT_FOUND_MESSAGE, MESSAGE_KEY, ACCOUNT_DELETED_MESSAGE, USER_CREATED_MESSAGE,
+    STATUS_404, REGISTER_ROUTE, ACCOUNTS_ROUTE, ACCOUNTS_BY_NAME_ROUTE,
+    GET_METHOD, POST_METHOD, PUT_METHOD, DELETE_METHOD
+
+)
 
 
 class UserController:
@@ -52,18 +52,20 @@ class UserController:
 
     async def delete_account(self, request: Request, account_data: AccountDelete,
                              db: AsyncSession = Depends(get_db_session)):
-        user: User = await self.auth_service.get_current_user(request, db)
-        account: Account = await self.user_service.get_account_by_name(account_data.account_name, user.id, db)
-
-        if account:
-            await self.user_service.delete_account(account, db)
-            return {MESSAGE_KEY: ACCOUNT_DELETED_MESSAGE}
-        else:
-            raise HTTPException(status_code=STATUS_404, detail=ACCOUNT_NOT_FOUND_MESSAGE)
+        return await self.delete_account_common(request, account_data=account_data, db=db)
 
     async def delete_account_by_name(self, request: Request, account_name: str,
                                      db: AsyncSession = Depends(get_db_session)):
+        return await self.delete_account_common(request, account_name=account_name, db=db)
+
+    async def delete_account_common(self, request: Request, account_name: str = None,
+                                    account_data: AccountDelete = None,
+                                    db: AsyncSession = Depends(get_db_session)):
         user: User = await self.auth_service.get_current_user(request, db)
+
+        if account_data:
+            account_name = account_data.account_name
+
         account: Account = await self.user_service.get_account_by_name(account_name, user.id, db)
 
         if account:
@@ -73,17 +75,17 @@ class UserController:
             return {MESSAGE_KEY: ACCOUNT_NOT_FOUND_MESSAGE}, status.HTTP_404_NOT_FOUND
 
     def add_routes(self):
-        self.router.add_api_route("/register", self.signup, methods=["POST"])
-        self.router.add_api_route("/accounts", self.list_accounts, methods=["GET"],
+        self.router.add_api_route(REGISTER_ROUTE, self.signup, methods=[POST_METHOD])
+        self.router.add_api_route(ACCOUNTS_ROUTE, self.list_accounts, methods=[GET_METHOD],
                                   dependencies=[Depends(UserValidator())])
-        self.router.add_api_route("/accounts", self.post_account, methods=["POST"],
-                                  dependencies=[Depends(UserValidator())])
-
-        self.router.add_api_route("/accounts/{account_name}", self.get_account, methods=["GET"],
+        self.router.add_api_route(ACCOUNTS_ROUTE, self.post_account, methods=[POST_METHOD],
                                   dependencies=[Depends(UserValidator())])
 
-        self.router.add_api_route("/accounts/{account_name}", self.delete_account_by_name, methods=["DELETE"],
+        self.router.add_api_route(ACCOUNTS_BY_NAME_ROUTE, self.get_account, methods=[GET_METHOD],
                                   dependencies=[Depends(UserValidator())])
 
-        self.router.add_api_route("/accounts", self.delete_account, methods=["DELETE"],
+        self.router.add_api_route(ACCOUNTS_BY_NAME_ROUTE, self.delete_account_by_name, methods=[DELETE_METHOD],
+                                  dependencies=[Depends(UserValidator())])
+
+        self.router.add_api_route(ACCOUNTS_ROUTE, self.delete_account, methods=[DELETE_METHOD],
                                   dependencies=[Depends(UserValidator())])

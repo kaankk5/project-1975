@@ -7,7 +7,7 @@ from sqlalchemy import select
 from fastapi import Depends, HTTPException
 from app.repositories.db import get_db_session
 from typing import Dict, Any, List
-from app.http_constants import ACCOUNT_DELETED_MESSAGE
+from app.api_constants import ACCOUNT_DELETED_MESSAGE
 
 class UserRepository:
 

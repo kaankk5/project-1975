@@ -5,12 +5,11 @@ from app.models.account import Account
 from app.schemas.account import AccountCreate
 from app.schemas.user import UserCreate
 from typing import List
-from app.api_constants import (MESSAGE_KEY,
-                                USER_SIGNUP_MESSAGE,
-                                USER_ID_TEXT,
-                                ACCOUNT_NAME_TEXT,
-                                BALANCE_TEXT,
-                                )
+from app.api_constants import (
+    MESSAGE_KEY, USER_SIGNUP_MESSAGE, USER_ID_TEXT,
+    ACCOUNT_NAME_TEXT, BALANCE_TEXT,
+
+)
 
 
 class UserService:

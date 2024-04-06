@@ -7,7 +7,6 @@ from app.schemas.user import UserCreate, UserLogin
 from app.repositories.db import get_db_session
 from app.models.user import User
 from app.models.account import Account
-from app.repositories.user import UserRepository
 from app.schemas.account import AccountCreate, AccountDelete
 from app.api_constants import (
     ACCOUNT_NOT_FOUND_MESSAGE, MESSAGE_KEY, ACCOUNT_DELETED_MESSAGE, USER_CREATED_MESSAGE,

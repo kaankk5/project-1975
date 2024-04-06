@@ -1,6 +1,10 @@
 from fastapi import status
 
 MESSAGE_KEY = "message"
+ACCESS_KEY = "access_token"
+TOKEN_TYPE_KEY = "token_type"
+BEARER_RESPONSE_TEXT = "bearer"
+
 ACCOUNT_NOT_FOUND_MESSAGE = "Account not found"
 ACCOUNT_DELETED_MESSAGE = "Account deleted successfully"
 USER_CREATED_MESSAGE = "User created successfully"
@@ -12,6 +16,7 @@ ACCOUNT_NAME_TEXT = "account_name"
 BALANCE_TEXT = "balance"
 # API Routes
 REGISTER_ROUTE = "/register"
+LOGIN_ROUTE = "/login"
 ACCOUNTS_ROUTE = "/accounts"
 ACCOUNTS_BY_NAME_ROUTE = "/accounts/{account_name}"
 
@@ -33,3 +38,5 @@ POST_METHOD = "POST"
 PUT_METHOD = "PUT"
 DELETE_METHOD = "DELETE"
 
+# Error
+INVALID_USERNAME_PASSWORD_TEXT = "Invalid username or password"

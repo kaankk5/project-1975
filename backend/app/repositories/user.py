@@ -4,10 +4,9 @@ from app.models.user import User
 from app.models.account import Account
 from app.utils import hash_password
 from sqlalchemy import select
-from fastapi import Depends, HTTPException
-from app.repositories.db import get_db_session
 from typing import Dict, Any, List
 from app.api_constants import ACCOUNT_DELETED_MESSAGE
+
 
 class UserRepository:
 

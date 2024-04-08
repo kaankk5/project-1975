@@ -19,7 +19,7 @@ REGISTER_ROUTE = "/register"
 LOGIN_ROUTE = "/login"
 ACCOUNTS_ROUTE = "/accounts"
 ACCOUNTS_BY_NAME_ROUTE = "/accounts/{account_name}"
-
+HOME_ROUTE = "/"
 # VALIDATION
 NOT_VALIDATE_CREDENTIALS_MESSAGE = "Could not validate credentials"
 AUTH_HEADER_MISSING_MESSAGE = "Authorization header is missing"

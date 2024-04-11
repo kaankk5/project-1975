@@ -20,6 +20,7 @@ LOGIN_ROUTE = "/login"
 ACCOUNTS_ROUTE = "/accounts"
 ACCOUNTS_BY_NAME_ROUTE = "/accounts/{account_name}"
 HOME_ROUTE = "/"
+
 # VALIDATION
 NOT_VALIDATE_CREDENTIALS_MESSAGE = "Could not validate credentials"
 AUTH_HEADER_MISSING_MESSAGE = "Authorization header is missing"
@@ -28,6 +29,7 @@ USER_NOT_FOUND_MESSAGE = "User not found"
 AUTH_TEXT = "Authorization"
 BEARER_TEXT = "Bearer "
 SUB_TEXT = "sub"
+BUY_OR_SELL_ERROR = "Only one of buying_price or selling_price can be provided"
 
 # Status
 STATUS_401 = 401
@@ -37,6 +39,10 @@ GET_METHOD = "GET"
 POST_METHOD = "POST"
 PUT_METHOD = "PUT"
 DELETE_METHOD = "DELETE"
+
+# Trade Related
+BUYING_PRICE = "buying_price"
+SELLING_PRICE = "selling_price"
 
 # Error
 INVALID_USERNAME_PASSWORD_TEXT = "Invalid username or password"

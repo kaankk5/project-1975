@@ -7,6 +7,7 @@ from fastapi import Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.schemas.trade import TradeCreate
 from fastapi import Request
+from app.repositories.user import User
 
 
 class TradeController:
@@ -20,7 +21,9 @@ class TradeController:
     async def open_position(self, trade_create: TradeCreate,
                             request: Request,
                             db: AsyncSession = Depends(get_db_session)):
-        await self.trade_service.open_position(request, trade_create, db)
+        user: User = await self.auth_service.get_current_user(request, db)
+
+        await self.trade_service.open_position(user, trade_create, db)
         return {"message": "+Askim cekimdeyim? -Ne cekimi? +31"}
 
     def add_routes(self):

@@ -2,6 +2,11 @@ from abc import ABC, abstractmethod
 from enum import Enum
 
 
+class BrokerType(Enum):
+    BINANCE = "Binance"
+    KRAKEN = "Kraken"
+
+
 class BrokerClient(ABC):
 
     @abstractmethod

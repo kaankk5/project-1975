@@ -1,10 +1,11 @@
-from app.services.broker_services.broker_client import BrokerType, BrokerClient
-from app.services.broker_services.binance_client import BinanceClient
+
+from app.services.broker_services.broker import BrokerType, Broker
+from app.services.broker_services.binance import BinanceClient
 
 
-class BrokerClientFactory:
+class BrokerFactory:
     @staticmethod
-    def create_client(broker_type: BrokerType) -> BrokerClient:
+    def create_client(broker_type: BrokerType) -> Broker:
         if broker_type == BrokerType.BINANCE:
             return BinanceClient()
         elif broker_type == BrokerType.KRAKEN:
@@ -17,4 +18,4 @@ class BrokerClientFactory:
             return 'KrakenClient()'
 
         else:
-            raise ValueError("Unsupported broker type")
+            raise ValueError("Unsupported broker_services type")

@@ -7,7 +7,7 @@ class BrokerType(Enum):
     KRAKEN = "Kraken"
 
 
-class BrokerClient(ABC):
+class Broker(ABC):
 
     @abstractmethod
     async def get_stream_symbol(self, symbol: str):

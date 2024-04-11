@@ -6,6 +6,7 @@ from app.repositories.db import get_db_session
 from fastapi import Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.schemas.trade import TradeCreate
+from fastapi import Request
 
 
 class TradeController:
@@ -16,9 +17,10 @@ class TradeController:
         self.router = APIRouter()
         self.add_routes()
 
-    async def open_position(self, trade_create: TradeCreate, db: AsyncSession = Depends(get_db_session)):
-        # This is the place where i change my monolith system into micro ones :d
-        # self.trade_service.open_postion
+    async def open_position(self, trade_create: TradeCreate,
+                            request: Request,
+                            db: AsyncSession = Depends(get_db_session)):
+        await self.trade_service.open_position(request, trade_create, db)
         return {"message": "+Askim cekimdeyim? -Ne cekimi? +31"}
 
     def add_routes(self):

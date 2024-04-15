@@ -7,6 +7,7 @@ from app.services.authentication import AuthService
 from app.controllers.trade import TradeController
 from app.controllers.user import UserController
 from app.controllers.authentication import AuthController
+from app.services.broker_services.binance import BinanceClient
 
 # from app.controllers.user import router as user_router
 # from app.controllers.auth_controller import auth_router
@@ -29,11 +30,16 @@ app = FastAPI()
 async def startup_event():
     # User Repository
     user_repository = UserRepository()
+    # Broker Factory
+
+    # Broker Services
+    binance_client: BinanceClient = BinanceClient()
+    # kraken_client: Kraken = Kraken()
 
     # Services
     user_service: UserService = UserService(user_repository)
     auth_service: AuthService = AuthService()
-    trade_service: TradeService = TradeService(user_repository)
+    trade_service: TradeService = TradeService(user_repository, binance_client)
 
     # Controller
     user_controller_instance: UserController = UserController(user_service, auth_service)

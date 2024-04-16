@@ -10,12 +10,11 @@ class BrokerName(Enum):
 class Broker(ABC):
 
     @abstractmethod
-    async def get_stream_symbol(self, symbol: str):
+    async def broker_side_validation(self) -> bool:
         """GET STREAM SYMBOL :D"""
         pass
-
-    @abstractmethod
-    async def check_symbol(self, symbol: str):
-        """GET STREAM SYMBOL :D"""
-        pass
-
+    #
+    # @abstractmethod
+    # async def check_symbol(self, symbol: str):
+    #     """GET STREAM SYMBOL :D"""
+    #     pass

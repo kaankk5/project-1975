@@ -27,8 +27,8 @@ class TradeService:
         if market_buy:
             broker_name: BrokerName = BrokerName(trade_create.broker_name)
             if broker_name == BrokerName.BINANCE:
-                await self.binance_service.check_symbol()
-            #     This part
+                status: bool = await self.binance_service.broker_side_validation(trade_create.symbol)
+
 
             elif broker_name == BrokerName.KRAKEN:
                 print(62)

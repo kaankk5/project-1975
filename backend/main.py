@@ -8,8 +8,8 @@ from app.controllers.trade import TradeController
 from app.controllers.user import UserController
 from app.controllers.authentication import AuthController
 from app.services.broker_services.binance import BinanceClient
+from app.services.broker_services.broker_websocket.binance_ws import BinanceWebSocketClient
 from httpx import AsyncClient
-
 
 # from app.controllers.user import router as user_router
 # from app.controllers.auth_controller import auth_router
@@ -33,11 +33,14 @@ async def startup_event():
     # User Repository
     user_repository = UserRepository()
     # Request
-
     async_client = AsyncClient()
 
+    # Broker ws
+    binance_ws_client: BinanceWebSocketClient = BinanceWebSocketClient()
+
+
     # Broker Services
-    binance_client: BinanceClient = BinanceClient(async_client)
+    binance_client: BinanceClient = BinanceClient(async_client,binance_ws_client)
     # kraken_client: Kraken = Kraken()
 
     # Services

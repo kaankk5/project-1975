@@ -1,6 +1,7 @@
 # import threading
 # import requests
 from app.services.broker_services.broker import Broker
+from app.services.broker_services.broker_websocket.binance_ws import BinanceWebSocketClient
 
 from httpx import AsyncClient
 
@@ -12,6 +13,7 @@ class BinanceClient(Broker):
 
     def __init__(self, client: AsyncClient, websocket_client: BinanceWebSocketClient):
         self.client = client
+        self.websocket_client = websocket_client
 
     async def broker_side_validation(self, symbol: str) -> bool:
         connection_ok: bool = await self._check_connection()
